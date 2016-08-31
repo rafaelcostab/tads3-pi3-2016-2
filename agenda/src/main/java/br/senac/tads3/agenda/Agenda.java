@@ -34,14 +34,16 @@ public class Agenda extends ConexaoBD {
                     instancia.listar();
                     break;
                 case 2:
-                    System.out.println("\n*** CADASTRO DE CONTATOS ***\n");
+                    System.out.println("\n*** CADASTRO DE CONTATO ***\n");
                     instancia.incluir();
                     break;
                 case 3:
-                    System.out.println("\n*** ALTERAR CONTATOS ***");
+                    System.out.println("\n*** ALTERAR CONTATO ***");
                     instancia.alterar();
                     break;
                 case 4:
+                    System.out.println("\n*** DELETAR CONTATO");
+                    instancia.deletar();
                     break;
                 case 9:
                     System.exit(0);
@@ -230,8 +232,45 @@ public class Agenda extends ConexaoBD {
                 }
             }
         }
+        // 3) Fechar conexao        
+    }
 
-        // 3) Fechar conexao
+    public void deletar() {
+        // 1) Abrir conexao
+        PreparedStatement stmt = null;
+        Connection conn = null;
+
+        System.out.print("Digite o nome do contato que deseja deletar: ");
+        String nome = entrada.nextLine();
+        String sql = "DELETE FROM TB_CONTATO WHERE NM_CONTATO LIKE '" + nome + "'";
+
+        try {
+            conn = obterConexao();
+            stmt = conn.prepareStatement(sql);
+
+            // 2) Executar SQL
+            stmt.execute();
+            System.out.println("Contato deletado com sucesso");
+        } catch (SQLException e) {
+            System.out.println("Não foi possível executar.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Não foi possível executar.");
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException ex) {
+                    System.out.println("Erro ao fechar stmt.");
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException ex) {
+                    System.out.println("Erro ao fechar conn.");
+                }
+            }
+        }
     }
 
 }
