@@ -2,6 +2,7 @@ package br.senac.tads3.agenda;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -17,20 +18,23 @@ public class Agenda extends ConexaoBD {
         Agenda instancia = new Agenda();
 
         do {
-            System.out.println("***** DIGITE UMA OPÇÃO *****");
+            System.out.println("\n***** DIGITE UMA OPÇÃO *****");
             System.out.println("(1) Listar contatos");
             System.out.println("(2) Incluir novo contato");
             System.out.println("(3) Alterar contato");
             System.out.println("(4) Deletar contato");
-            System.out.println("(9) Sair");
+            System.out.println("(9) Sair\n");
             System.out.print("Opção: ");
 
             String strOpcao = entrada.nextLine();
             int opcao = Integer.parseInt(strOpcao);
             switch (opcao) {
                 case 1:
+                    System.out.println("\n*** CONSULTA CONTATOS ***\n");
+                    instancia.listar();
                     break;
                 case 2:
+                    System.out.println("\n*** CADASTRO DE CONTATOS ***\n");
                     instancia.incluir();
                     break;
                 case 3:
@@ -98,18 +102,62 @@ public class Agenda extends ConexaoBD {
             if (stmt != null) {
                 try {
                     stmt.close();
-                } catch (SQLException ex) {
+                } catch (SQLException e) {
                     System.out.println("Erro ao fechar stmt.");
                 }
             }
             if (conn != null) {
                 try {
                     conn.close();
-                } catch (SQLException ex) {
+                } catch (SQLException e) {
                     System.out.println("Erro ao fechar conn.");
                 }
             }
         }
-
     }
+
+    public void listar() {
+        // 1) Abrir conexao
+        PreparedStatement stmt = null;
+        Connection conn = null;
+
+        String sql = "SELECT NM_CONTATO, DT_NASCIMENTO, VL_TELEFONE, VL_EMAIL, DT_CADASTRO FROM TB_CONTATO";
+
+        try {
+            conn = obterConexao();
+            stmt = conn.prepareStatement(sql);
+
+            // 2) Executar SQL
+            ResultSet resultSet = stmt.executeQuery();
+
+            while (resultSet.next()) {
+                System.out.println(resultSet.getString("NM_CONTATO"));
+                System.out.println(resultSet.getString("DT_NASCIMENTO"));
+                System.out.println(resultSet.getString("VL_TELEFONE"));
+                System.out.println(resultSet.getString("VL_EMAIL"));
+                System.out.println(resultSet.getString("DT_CADASTRO"));
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Não foi possível executar.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Não foi possível executar.");
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    System.out.println("Erro ao fechar stmt.");
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Erro ao fechar conn.");
+                }
+            }
+        }
+    }
+
 }
