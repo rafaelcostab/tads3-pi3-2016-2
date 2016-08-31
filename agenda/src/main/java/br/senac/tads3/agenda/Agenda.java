@@ -38,6 +38,8 @@ public class Agenda extends ConexaoBD {
                     instancia.incluir();
                     break;
                 case 3:
+                    System.out.println("\n*** ALTERAR CONTATOS ***");
+                    instancia.alterar();
                     break;
                 case 4:
                     break;
@@ -158,6 +160,78 @@ public class Agenda extends ConexaoBD {
                 }
             }
         }
+    }
+
+    public void alterar() {
+        // 1) Abrir conexao
+        PreparedStatement stmt = null;
+        Connection conn = null;
+
+        System.out.print("Digite o nome do usuário que deseja alterar: ");
+        String nomeAlterar = entrada.nextLine();
+
+        System.out.print("Digite o novo nome do usuário que deseja alterar: ");
+        String nome = entrada.nextLine();
+
+        System.out.print("Digite a nova data de nascimento no formato dd/mm/aaaa: ");
+        String strDataNasc = entrada.nextLine();
+
+        System.out.print("Digite o novo e-mail: ");
+        String email = entrada.nextLine();
+
+        System.out.print("Digite o novo telefone no formato 99 99999-9999: ");
+        String telefone = entrada.nextLine();
+
+        String sql = "UPDATE TB_CONTATO SET NM_CONTATO = ?, "
+                + " DT_NASCIMENTO = ?,"
+                + " VL_TELEFONE  = ?,"
+                + " VL_EMAIL = ?"
+                + " WHERE NM_CONTATO = ?";
+
+        try {
+            conn = obterConexao();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, nome);
+
+            DateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+            Date dataNasc = null;
+            try {
+                dataNasc = formatador.parse(strDataNasc);
+            } catch (ParseException ex) {
+                System.out.println("Data de nascimento inválida.");
+                return;
+            }
+            stmt.setDate(2, new java.sql.Date(dataNasc.getTime()));
+            stmt.setString(3, telefone);
+            stmt.setString(4, email);
+            stmt.setString(5, nomeAlterar);
+
+            // 2) Executar SQL
+            stmt.executeUpdate();
+            System.out.println("Contato alterado com sucesso");
+
+        } catch (SQLException e) {
+            System.out.println("Não foi possível executar.");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Não foi possível executar.");
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    System.out.println("Erro ao fechar stmt.");
+                }
+            }
+            if (conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    System.out.println("Erro ao fechar conn.");
+                }
+            }
+        }
+
+        // 3) Fechar conexao
     }
 
 }
