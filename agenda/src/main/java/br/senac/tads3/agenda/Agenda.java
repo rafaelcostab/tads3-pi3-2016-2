@@ -18,13 +18,13 @@ public class Agenda extends ConexaoBD {
         Agenda instancia = new Agenda();
 
         do {
-            System.out.println("\n***** DIGITE UMA OPÇÃO *****");
+            System.out.println("\n***** DIGITE UMA OPÃ‡ÃƒO *****");
             System.out.println("(1) Listar contatos");
             System.out.println("(2) Incluir novo contato");
             System.out.println("(3) Alterar contato");
             System.out.println("(4) Deletar contato");
             System.out.println("(9) Sair\n");
-            System.out.print("Opção: ");
+            System.out.print("Opçãoo: ");
 
             String strOpcao = entrada.nextLine();
             int opcao = Integer.parseInt(strOpcao);
@@ -49,7 +49,7 @@ public class Agenda extends ConexaoBD {
                     System.exit(0);
                     break;
                 default:
-                    System.out.println("OPÇÃO INVÁLIDA");
+                    System.out.println("OPÃ‡ÃƒO INVÃ�LIDA");
             }
         } while (true);
     }
@@ -86,7 +86,7 @@ public class Agenda extends ConexaoBD {
             try {
                 dataNasc = formatador.parse(strDataNasc);
             } catch (ParseException ex) {
-                System.out.println("Data de nascimento inválida!");
+                System.out.println("Data de nascimento invÃ¡lida!");
                 return;
             }
             stmt.setDate(2, new java.sql.Date(dataNasc.getTime()));
@@ -99,9 +99,9 @@ public class Agenda extends ConexaoBD {
             System.out.println("Contato cadastrado com sucesso");
 
         } catch (SQLException e) {
-            System.out.println("Não foi possível executar.");
+            System.out.println("NÃ£o foi possÃ­vel executar.");
         } catch (ClassNotFoundException e) {
-            System.out.println("Não foi possível executar.");
+            System.out.println("NÃ£o foi possÃ­vel executar.");
         } finally {
             if (stmt != null) {
                 try {
@@ -143,9 +143,9 @@ public class Agenda extends ConexaoBD {
             }
 
         } catch (SQLException e) {
-            System.out.println("Não foi possível executar.");
+            System.out.println("NÃ£o foi possÃ­vel executar.");
         } catch (ClassNotFoundException e) {
-            System.out.println("Não foi possível executar.");
+            System.out.println("NÃ£o foi possÃ­vel executar.");
         } finally {
             if (stmt != null) {
                 try {
@@ -169,10 +169,10 @@ public class Agenda extends ConexaoBD {
         PreparedStatement stmt = null;
         Connection conn = null;
 
-        System.out.print("Digite o nome do usuário que deseja alterar: ");
+        System.out.print("Digite o nome do usuÃ¡rio que deseja alterar: ");
         String nomeAlterar = entrada.nextLine();
 
-        System.out.print("Digite o novo nome do usuário que deseja alterar: ");
+        System.out.print("Digite o novo nome do usuÃ¡rio que deseja alterar: ");
         String nome = entrada.nextLine();
 
         System.out.print("Digite a nova data de nascimento no formato dd/mm/aaaa: ");
@@ -200,7 +200,7 @@ public class Agenda extends ConexaoBD {
             try {
                 dataNasc = formatador.parse(strDataNasc);
             } catch (ParseException ex) {
-                System.out.println("Data de nascimento inválida.");
+                System.out.println("Data de nascimento invÃ¡lida.");
                 return;
             }
             stmt.setDate(2, new java.sql.Date(dataNasc.getTime()));
@@ -213,9 +213,9 @@ public class Agenda extends ConexaoBD {
             System.out.println("Contato alterado com sucesso");
 
         } catch (SQLException e) {
-            System.out.println("Não foi possível executar.");
+            System.out.println("NÃ£o foi possÃ­vel executar.");
         } catch (ClassNotFoundException e) {
-            System.out.println("Não foi possível executar.");
+            System.out.println("NÃ£o foi possÃ­vel executar.");
         } finally {
             if (stmt != null) {
                 try {
@@ -252,9 +252,9 @@ public class Agenda extends ConexaoBD {
             stmt.execute();
             System.out.println("Contato deletado com sucesso");
         } catch (SQLException e) {
-            System.out.println("Não foi possível executar.");
+            System.out.println("NÃ£o foi possÃ­vel executar.");
         } catch (ClassNotFoundException e) {
-            System.out.println("Não foi possível executar.");
+            System.out.println("NÃ£o foi possÃ­vel executar.");
         } finally {
             if (stmt != null) {
                 try {
